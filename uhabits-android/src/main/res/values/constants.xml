@@ -90,6 +90,11 @@
         <item>@string/toggle</item>
     </string-array>
 
+    <string-array name="habitType" translatable="false">
+        <item>Weekly habit</item>
+        <item>Daily habit</item>
+    </string-array>
+
     <string-array name="strengthIntervalNames" translatable="false">
         <item>@string/day</item>
         <item>@string/week</item>

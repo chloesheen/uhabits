@@ -44,9 +44,9 @@ public class Habit
     public static final String HABIT_URI_FORMAT =
         "content://org.isoron.uhabits/habit/%d";
 
-    public static final int NUMBER_HABIT = 1;
+    public static final int DAILY_HABIT = 1;
 
-    public static final int YES_NO_HABIT = 0;
+    public static final int WEEKLY_HABIT = 0;
 
     @Nullable
     public Long id;
@@ -262,7 +262,7 @@ public class Habit
 
     public synchronized void setType(int type)
     {
-        if (type != YES_NO_HABIT && type != NUMBER_HABIT)
+        if (type != WEEKLY_HABIT && type != DAILY_HABIT)
             throw new IllegalArgumentException();
 
         data.type = type;
@@ -336,7 +336,7 @@ public class Habit
 
     public synchronized boolean isNumerical()
     {
-        return data.type == NUMBER_HABIT;
+        return data.type == DAILY_HABIT;
     }
 
     public HabitData getData()
@@ -388,11 +388,11 @@ public class Habit
             this.color = 8;
             this.archived = false;
             this.frequency = new Frequency(3, 7);
-            this.type = YES_NO_HABIT;
+            this.type = WEEKLY_HABIT;
             this.name = "";
             this.description = "";
             this.targetType = AT_LEAST;
-            this.targetValue = 100;
+            this.targetValue = 8;
             this.unit = "";
             this.position = 0;
         }

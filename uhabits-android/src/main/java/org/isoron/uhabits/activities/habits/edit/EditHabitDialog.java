@@ -20,11 +20,16 @@
 package org.isoron.uhabits.activities.habits.edit;
 
 import android.content.*;
+import android.content.res.Resources;
 import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.app.*;
 import android.text.format.*;
+import android.util.Log;
 import android.view.*;
+import android.widget.AdapterView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.datetimepicker.time.*;
 
@@ -167,8 +172,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
         int type = getTypeFromArguments();
 
         if (!namePanel.validate()) return;
-        if (type == Habit.YES_NO_HABIT && !frequencyPanel.validate()) return;
-        if (type == Habit.NUMBER_HABIT && !targetPanel.validate()) return;
+        if (type == Habit.WEEKLY_HABIT && !frequencyPanel.validate()) return;
+        if (type == Habit.DAILY_HABIT && !targetPanel.validate()) return;
 
         Habit habit = modelFactory.buildHabit();
         if( originalHabit != null )
@@ -180,8 +185,13 @@ public class EditHabitDialog extends AppCompatDialogFragment
         habit.setFrequency(frequencyPanel.getFrequency());
         habit.setUnit(targetPanel.getUnit());
         habit.setTargetValue(targetPanel.getTargetValue());
-        habit.setType(type);
+        //habit.setType(type);
 
+        Log.d("habit-typeDaily",String.valueOf(habit.getType()));
+        if (targetPanel.getVisibility() == View.VISIBLE)
+            habit.setType(Habit.DAILY_HABIT);
+        else
+            habit.setType(Habit.WEEKLY_HABIT);
         saveHabit(habit);
         dismiss();
     }
@@ -201,6 +211,41 @@ public class EditHabitDialog extends AppCompatDialogFragment
         return habit;
     }
 
+    @BindView(R.id.spHabitType)
+    Spinner spHabitType;
+    @BindView(R.id.tvSpinnerHabitType)
+    TextView tvSpinnerHabitType;
+    @BindView(R.id.tvDescription)
+    ExampleEditText tvDescription;
+
+    private void setupHabitTypeController(Habit habit){
+        spHabitType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("spinner-position", String.valueOf(i));
+                Resources res = getResources();
+                if (i == Habit.DAILY_HABIT){
+                    habit.setType(Habit.DAILY_HABIT);
+                    tvDescription.setExample(res.getString(R.string.example_question_numerical));
+                } else {
+                    habit.setType(Habit.WEEKLY_HABIT);
+                    tvDescription.setExample(res.getString(R.string.example_question_boolean));
+                }
+
+                if (habit.isNumerical()) {          // show targetPanel
+                    frequencyPanel.setVisibility(GONE);
+                    targetPanel.setVisibility(View.VISIBLE);
+                } else {                             // show frequencyPanel instead
+                    targetPanel.setVisibility(GONE);
+                    frequencyPanel.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+    }
+
     private void populateForm()
     {
         Habit habit = modelFactory.buildHabit();
@@ -218,7 +263,11 @@ public class EditHabitDialog extends AppCompatDialogFragment
         targetPanel.setTargetValue(habit.getTargetValue());
         targetPanel.setUnit(habit.getUnit());
         if (habit.hasReminder()) reminderPanel.setReminder(habit.getReminder());
+
+        setupHabitTypeController(habit);
+
     }
+
 
     private void setupNameController()
     {

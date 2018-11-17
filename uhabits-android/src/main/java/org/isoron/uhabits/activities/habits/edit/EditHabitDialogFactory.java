@@ -39,7 +39,7 @@ public class EditHabitDialogFactory
     {
         EditHabitDialog dialog = new EditHabitDialog();
         Bundle args = new Bundle();
-        args.putInt(BUNDLE_HABIT_TYPE, Habit.YES_NO_HABIT);
+        args.putInt(BUNDLE_HABIT_TYPE, Habit.WEEKLY_HABIT);
         dialog.setArguments(args);
         return dialog;
     }
@@ -48,7 +48,7 @@ public class EditHabitDialogFactory
     {
         EditHabitDialog dialog = new EditHabitDialog();
         Bundle args = new Bundle();
-        args.putInt(BUNDLE_HABIT_TYPE, Habit.NUMBER_HABIT);
+        args.putInt(BUNDLE_HABIT_TYPE, Habit.DAILY_HABIT);
         dialog.setArguments(args);
         return dialog;
     }

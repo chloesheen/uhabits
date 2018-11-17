@@ -71,7 +71,7 @@ public class HabitFixtures
     public Habit createNumericalHabit()
     {
         Habit habit = modelFactory.buildHabit();
-        habit.setType(Habit.NUMBER_HABIT);
+        habit.setType(Habit.DAILY_HABIT);
         habit.setName("Run");
         habit.setDescription("How many miles did you run today?");
         habit.setUnit("miles");
@@ -96,10 +96,10 @@ public class HabitFixtures
     public Habit createLongNumericalHabit(Timestamp reference)
     {
         Habit habit = modelFactory.buildHabit();
-        habit.setType(Habit.NUMBER_HABIT);
-        habit.setName("Walk");
-        habit.setDescription("How many steps did you walk today?");
-        habit.setUnit("steps");
+        habit.setType(Habit.DAILY_HABIT);
+        habit.setName("Drink");
+        habit.setDescription("Did you drink water eight times today?");
+        habit.setUnit("glasses");
         habit.setTargetType(Habit.AT_LEAST);
         habit.setTargetValue(100);
         habit.setColor(1);
