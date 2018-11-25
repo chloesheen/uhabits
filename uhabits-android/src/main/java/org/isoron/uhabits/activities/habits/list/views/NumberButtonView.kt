@@ -47,6 +47,11 @@ fun Double.toShortString(): String = when {
     this >= 1e2 -> DecimalFormat("#").format(this)
     this >= 1e1 -> DecimalFormat("#.#").format(this)
     else -> DecimalFormat("#.##").format(this)
+    /*
+    this >= 1e2 -> DecimalFormat("#").format(this)
+    this >= 1e1 -> DecimalFormat("#.#").format(this)
+    else -> DecimalFormat("#.##").format(this)
+    */
 }
 
 @AutoFactory

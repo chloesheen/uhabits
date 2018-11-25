@@ -187,8 +187,10 @@ public abstract class RepetitionList
     @NonNull
     public synchronized Repetition toggle(Timestamp timestamp)
     {
-        if (habit.isNumerical())
-            throw new IllegalStateException("habit must NOT be numerical");
+        //habits CAN be numerical now
+
+        //if (habit.isNumerical())
+            //throw new IllegalStateException("habit must NOT be numerical");
 
         Repetition rep = getByTimestamp(timestamp);
         if (rep != null) remove(rep);

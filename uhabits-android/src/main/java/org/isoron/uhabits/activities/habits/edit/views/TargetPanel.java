@@ -35,7 +35,9 @@ import butterknife.*;
 
 public class TargetPanel extends FrameLayout
 {
-    private DecimalFormat valueFormatter = new DecimalFormat("#.##");
+
+    // way to make this not be a decimal?
+    private DecimalFormat valueFormatter = new DecimalFormat("#");
 
     @BindView(R.id.tvUnit)
     ExampleEditText tvUnit;

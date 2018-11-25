@@ -129,6 +129,7 @@ class HabitCardView(
 
         numberPanel = numberPanelFactory.create().apply {
             visibility = GONE
+
             onEdit = { timestamp ->
                 triggerRipple(timestamp)
                 habit?.let { behavior.onEdit(it, timestamp) }

@@ -43,7 +43,7 @@ class NumberPickerFactory
         val view = inflater.inflate(R.layout.number_picker_dialog, null)
 
         val picker = view.findViewById<NumberPicker>(R.id.picker)
-        val picker2 = view.findViewById<NumberPicker>(R.id.picker2)
+
         val tvUnit = view.findViewById<TextView>(R.id.tvUnit)
 
         val intValue = Math.round(value * 100).toInt()
@@ -53,11 +53,6 @@ class NumberPickerFactory
         picker.value = intValue / 100
         picker.wrapSelectorWheel = false
 
-        picker2.minValue = 0
-        picker2.maxValue = 19
-        picker2.setFormatter { v -> String.format("%02d", 5 * v) }
-        picker2.value = intValue % 100 / 5
-        refreshInitialValue(picker2)
 
         tvUnit.text = unit
 
@@ -66,7 +61,7 @@ class NumberPickerFactory
                 .setTitle(R.string.change_value)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     picker.clearFocus()
-                    val v = picker.value + 0.05 * picker2.value
+                    val v = picker.value + 0.00
                     callback.onNumberPicked(v)
                 }
                 .create()

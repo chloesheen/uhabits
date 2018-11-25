@@ -42,9 +42,11 @@ import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 
+
 import butterknife.*;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_LIGHT;
 
 public class EditHabitDialog extends AppCompatDialogFragment
@@ -65,6 +67,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     protected ModelFactory modelFactory;
 
+
     @BindView(R.id.namePanel)
     NameDescriptionPanel namePanel;
 
@@ -76,6 +79,16 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     @BindView(R.id.targetPanel)
     TargetPanel targetPanel;
+
+    @BindView(R.id.spHabitType)
+    Spinner spHabitType;
+
+    @BindView(R.id.tvSpinnerHabitType)
+    TextView tvSpinnerHabitType;
+
+    @BindView(R.id.tvDescription)
+    ExampleEditText tvDescription;
+
 
     private ColorPickerDialogFactory colorPickerDialogFactory;
 
@@ -185,13 +198,14 @@ public class EditHabitDialog extends AppCompatDialogFragment
         habit.setFrequency(frequencyPanel.getFrequency());
         habit.setUnit(targetPanel.getUnit());
         habit.setTargetValue(targetPanel.getTargetValue());
-        //habit.setType(type);
 
         Log.d("habit-typeDaily",String.valueOf(habit.getType()));
-        if (targetPanel.getVisibility() == View.VISIBLE)
+        if (targetPanel.getVisibility() == View.VISIBLE) {
             habit.setType(Habit.DAILY_HABIT);
-        else
+        } else {
             habit.setType(Habit.WEEKLY_HABIT);
+        }
+
         saveHabit(habit);
         dismiss();
     }
@@ -211,25 +225,30 @@ public class EditHabitDialog extends AppCompatDialogFragment
         return habit;
     }
 
-    @BindView(R.id.spHabitType)
-    Spinner spHabitType;
-    @BindView(R.id.tvSpinnerHabitType)
-    TextView tvSpinnerHabitType;
-    @BindView(R.id.tvDescription)
-    ExampleEditText tvDescription;
+
 
     private void setupHabitTypeController(Habit habit){
+
         spHabitType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("spinner-position", String.valueOf(i));
                 Resources res = getResources();
-                if (i == Habit.DAILY_HABIT){
+                if (i == Habit.DAILY_HABIT) {
                     habit.setType(Habit.DAILY_HABIT);
                     tvDescription.setExample(res.getString(R.string.example_question_numerical));
                 } else {
                     habit.setType(Habit.WEEKLY_HABIT);
                     tvDescription.setExample(res.getString(R.string.example_question_boolean));
+                }
+
+                if (originalHabit != null){
+                    habit.copyFrom(originalHabit);
+                }
+
+                if (habit.hasReminder()){
+                    reminderPanel.setReminder(habit.getReminder());
                 }
 
                 if (habit.isNumerical()) {          // show targetPanel
@@ -242,6 +261,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
             }
         });
     }
@@ -253,15 +273,20 @@ public class EditHabitDialog extends AppCompatDialogFragment
         habit.setColor(prefs.getDefaultHabitColor(habit.getColor()));
         habit.setType(getTypeFromArguments());
 
+
         if (originalHabit != null) habit.copyFrom(originalHabit);
 
-        if (habit.isNumerical()) frequencyPanel.setVisibility(GONE);
-        else targetPanel.setVisibility(GONE);
+        if (habit.isNumerical()) {
+            frequencyPanel.setVisibility(GONE);
+        } else {
+            targetPanel.setVisibility(GONE);
+        }
 
         namePanel.populateFrom(habit);
         frequencyPanel.setFrequency(habit.getFrequency());
         targetPanel.setTargetValue(habit.getTargetValue());
         targetPanel.setUnit(habit.getUnit());
+
         if (habit.hasReminder()) reminderPanel.setReminder(habit.getReminder());
 
         setupHabitTypeController(habit);
