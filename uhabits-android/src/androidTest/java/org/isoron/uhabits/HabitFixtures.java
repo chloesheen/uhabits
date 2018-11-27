@@ -82,7 +82,7 @@ public class HabitFixtures
         Habit habit = modelFactory.buildHabit();
         habit.setName("Take a walk");
         habit.setDescription("How many steps did you walk today?");
-        habit.setType(Habit.NUMBER_HABIT);
+        habit.setType(Habit.DAILY_HABIT);
         habit.setTargetType(Habit.AT_LEAST);
         habit.setTargetValue(200.0);
         habit.setUnit("steps");

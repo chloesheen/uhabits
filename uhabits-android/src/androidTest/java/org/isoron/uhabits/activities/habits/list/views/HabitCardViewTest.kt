@@ -66,6 +66,8 @@ class HabitCardViewTest : BaseViewTest() {
         assertRenders(view, "$PATH/render_selected.png")
     }
 
+    
+
     @Test
     fun testRender_numerical() {
         view.apply {
