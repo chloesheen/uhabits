@@ -13,6 +13,7 @@ ext {
 }
 
 android {
+
     compileSdkVersion COMPILE_SDK_VERSION as Integer
     buildToolsVersion BUILD_TOOLS_VERSION
 
@@ -35,6 +36,7 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true //important
         versionCode VERSION_CODE as Integer
         versionName "$VERSION_NAME ($GIT_BRANCH $GIT_COMMIT)"
         minSdkVersion MIN_SDK_VERSION as Integer
